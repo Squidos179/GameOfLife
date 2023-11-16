@@ -1,13 +1,14 @@
 from math import sqrt
 import numpy as np
+import pygame
 
 class Cellule:
-
-    def __init__(self) -> None:
-        self.actuel = False
+    def __init__(self, pos, vivant) -> None:
+        self.actuel = vivant
         self.futur = False
         self.voisins = None
         self.civ = 0
+        self.pos = pos
 
     def est_vivant(self):
         return self.actuel
@@ -58,13 +59,19 @@ class Cellule:
         if self.civ < 2 and self.est_vivant() == False:
             self.mourir()
         
-
+    def render(self):
+        if self.est_vivant():
+            pygame.draw.rect(scr, (255, 255, 255), pygame.Rect(self.pos[0] * 10, self.pos[1] * 10, 10, 10))
+        else:
+            pygame.draw.rect(scr, (120, 0, 0), pygame.Rect(self.pos[0] * 10, self.pos[1] * 10, 10, 10))
 class Grille:
     
-    def __init__(self, largeur, hauteur) -> None:
-        self.largeur = largeur
+    def __init__(self, longueur, hauteur) -> None:
+        self.largeur = longueur
         self.hauteur = hauteur
-        self.matrix = [[Cellule() for x in range(self.largeur)] for y in range(self.hauteur)]
+        self.matrix = [[Cellule((x, y), self.remplir_alea(0.2)) for x in range(self.largeur)] for y in range(self.hauteur)]
+        self.civ = 0
+        self.i = 0
 
     def __repr__(self) -> str:
         feur = ""
@@ -129,28 +136,42 @@ class Grille:
         choice = np.random.choice([True, False], 1, p=[jaaj, 1 - jaaj])
         return choice[0]
     
-    def jeu(self): 
-            while(True):
-                print(feur.matrix[2][1].est_vivant())
-                print(self)
-                f = input("Suite")
-                print("\u001B[H\u001B[J")
-                self.affecte_voisins()
-                for i in range(self.hauteur):
-                    for p in range(self.largeur):
-                        self.matrix[i][p].calcule_etat_futur()
-                for i in range(self.hauteur):
-                    for p in range(self.largeur):
-                        self.matrix[i][p].actuel = self.matrix[i][p].futur
-                
-feur = Grille(100, 10)
-feur.matrix[2][1].actuel = True
-feur.matrix[2][2].actuel = True
-feur.matrix[2][3].actuel = True
-feur.matrix[2][4].actuel = True
-feur.matrix[3][0].actuel = True
-feur.matrix[3][4].actuel = True
-feur.matrix[4][4].actuel = True
-feur.matrix[5][0].actuel = True
-feur.matrix[5][3].actuel = True
-feur.jeu()
+    def jeu(self):
+            self.affecte_voisins()
+            for i in range(self.hauteur):
+                for p in range(self.largeur):
+                    self.matrix[i][p].calcule_etat_futur()
+            for i in range(self.hauteur):
+                for p in range(self.largeur):
+                    self.matrix[i][p].actuel = self.matrix[i][p].futur
+
+    def render(self):
+        self.civ = 0
+        for i in range(self.hauteur):
+            for p in range(self.largeur):
+                self.matrix[i][p].render()
+                if self.matrix[i][p].actuel:
+                    self.civ += 1
+        self.i += 1
+        print(self.civ, self.i)
+
+
+l = int(input("Veuillez entrer la longueur de la grille : "))
+h = int(input("Veuillez entrer la hauteur de la grille : "))
+
+scr = pygame.display.set_mode((l*10, h*10))
+feur = Grille(l, h)
+running = True
+clock = pygame.time.Clock()
+while running:
+    for event in pygame.event.get():
+        if event == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+    feur.jeu()
+    feur.render()
+    pygame.display.flip()
+    clock.tick(60)
+pygame.quit()
