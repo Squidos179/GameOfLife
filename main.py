@@ -68,7 +68,12 @@ class Grille:
     
     def __init__(self, longueur, hauteur) -> None:
         self.largeur = longueur
+    def __init__(self, longueur, hauteur) -> None:
+        self.largeur = longueur
         self.hauteur = hauteur
+        self.matrix = [[Cellule((x, y), self.remplir_alea(0.2)) for x in range(self.largeur)] for y in range(self.hauteur)]
+        self.civ = 0
+        self.i = 0
         self.matrix = [[Cellule((x, y), self.remplir_alea(0.2)) for x in range(self.largeur)] for y in range(self.hauteur)]
         self.civ = 0
         self.i = 0
