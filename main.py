@@ -36,11 +36,10 @@ while sucess == False:
     else:
         sucess = True
 
-print("\u001B[H\u001B[J", end="")
-
 running = True
 clock = pygame.time.Clock()
 if choice == 1:
+    print("Appuyez sur 'Echap' pour fermer le programme")
     graph = Grille(l, h, pygame.display.set_mode((l * 10, h * 10)))
     while running:
         for event in pygame.event.get():
@@ -50,16 +49,16 @@ if choice == 1:
                 if event.key == pygame.K_ESCAPE:
                     running = False
         graph.jeu()
-        graph.render()
+        graph.render_graph()
         pygame.display.flip()
         clock.tick(32)
 
 if choice == 2:
     cmd = Grille(l, h)
-    while True:
-        print("\u001B[H\u001B[J")
+    while(True):
+        print("\u001B[H\u001B[3J")
         cmd.jeu()
         print(cmd)
-        time.sleep(0.5)
+        time.sleep(0.3)
 
 pygame.quit()

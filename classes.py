@@ -305,7 +305,7 @@ class Grille:
             for p in range(self.largeur):
                 self.matrix[i][p].actuel = self.matrix[i][p].futur
 
-    def render(self):
+    def render_graph(self):
         """
         Fait afficher à chaque cellule son état dans l'interface graphique
         :return:
@@ -314,3 +314,4 @@ class Grille:
         for i in range(self.hauteur):
             for p in range(self.largeur):
                 self.matrix[i][p].render()
+
