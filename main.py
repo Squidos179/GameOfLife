@@ -1,14 +1,17 @@
 from __future__ import annotations
-
 import time
-
-import pygame
 from classes import Grille
-
 sucess = False
-
-def efface_ecran()->None:
-    print("\u001B[H\u001B[J")
+load = None
+try:
+    import pygame
+except:
+    print("Pygame n'est pas présent sur votre interpreteur Python ou n'a pas pu être chargé.")
+    print("Il sera donc impossible d'utiliser la partie graphique du programme.")
+    load = None
+    choice = 2
+else:
+    load = True
 
 while sucess == False:
     print("Veuillez entrer les dimensions de la grille, elles doivent être toutes les deux des multiples de 10 et des entiers")
@@ -36,21 +39,22 @@ while sucess == False:
 
 sucess = False
 
-while sucess == False:
-    print("Voulez-vous utiliser l'interface graphique ou l'interface terminal ?")
-    print("1. Interface graphique \n2. Interface terminal")
-    try:
-        choice = int(input("Votre choix : "))
-        if choice != 1 and choice != 2:
-            raise Exception
-    except Exception:
-        print("La valeur entrée est incorrecte.")
-    else:
-        sucess = True
+if load == True:
+    while sucess == False:
+        print("Voulez-vous utiliser l'interface graphique ou l'interface terminal ?")
+        print("1. Interface graphique \n2. Interface terminal")
+        try:
+            choice = int(input("Votre choix : "))
+            if choice != 1 and choice != 2:
+                raise Exception
+        except Exception:
+            print("La valeur entrée est incorrecte.")
+        else:
+            sucess = True
 
 running = True
-clock = pygame.time.Clock()
 if choice == 1:
+    clock = pygame.time.Clock()
     print("Appuyez sur 'Echap' pour fermer le programme")
     graph = Grille(l, h, taux, pygame.display.set_mode((l * 10, h * 10)))
     while running:
@@ -60,17 +64,16 @@ if choice == 1:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-        graph.jeu()
         graph.render_graph()
+        graph.jeu()
         pygame.display.flip()
-        clock.tick(0.5)
+        clock.tick(16)
+    pygame.quit()
 
 if choice == 2:
     cmd = Grille(l, h, taux)
     while(True):
         print("\u001B[H\u001B[3J")
-        cmd.jeu()
         print(cmd)
+        cmd.jeu()
         time.sleep(0.3)
-
-pygame.quit()

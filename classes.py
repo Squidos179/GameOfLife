@@ -1,9 +1,11 @@
 from __future__ import annotations
 from math import sqrt
 import numpy as np
-import pygame
 
-
+try:
+    import pygame
+except:
+    pass
 class Cellule:
     def __init__(self, pos: list, vivant: bool, screen:pygame.display=None) -> None:
         """
