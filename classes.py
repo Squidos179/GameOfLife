@@ -133,7 +133,7 @@ class Cellule:
 
 class Grille:
 
-    def __init__(self, longueur: int, hauteur: int, scr:pygame.display = None) -> None:
+    def __init__(self, longueur: int, hauteur: int, taux:float, scr:pygame.display = None) -> None:
         """
         Constructeur de la classe Grille
         Args :
@@ -151,7 +151,8 @@ class Grille:
             self.largeur = longueur
             self.hauteur = hauteur
             self.scr = scr
-            self.matrix = [[Cellule([x, y], self.remplir_alea(0.2), self.scr) for x in range(self.largeur)] for y in
+            self.taux = taux
+            self.matrix = [[Cellule([x, y], self.remplir_alea(), self.scr) for x in range(self.largeur)] for y in
                            range(self.hauteur)]
 
     def __repr__(self) -> str:
@@ -280,15 +281,13 @@ class Grille:
             for n in range(self.largeur):
                 self.matrix[i][n].voisins = self.get_voisins(i, n)
 
-    def remplir_alea(self, proba: float) -> bool:
+    def remplir_alea(self) -> bool:
         """
-        Donne aléatoirent la valeur True ou False en fonction d'une probabilité
-        Args :
-            proba : un float, la probabilité que True soit retourné
+        Donne aléatoirent la valeur True ou False en fonction d'une probabilité donné
         :return:
             Un booléen choisi aléatoirement
         """
-        choice = np.random.choice([True, False], 1, p=[proba, 1 - proba])
+        choice = np.random.choice([True, False], 1, p=[self.taux, 1 - self.taux])
         return bool(choice[0])
 
     def jeu(self) -> None:

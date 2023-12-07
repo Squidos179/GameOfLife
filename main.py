@@ -25,8 +25,20 @@ while sucess == False:
 sucess = False
 
 while sucess == False:
+    try:
+        taux = float(input("Veuillez choisir le taux de remplissage : "))
+        if taux > 1 or taux < 0 or type(taux) != float:
+            raise Exception
+    except Exception:
+        print("Le taux entré est incrorrect, veuillez réessayer.")
+    else:
+        sucess = True
+
+sucess = False
+
+while sucess == False:
     print("Voulez-vous utiliser l'interface graphique ou l'interface terminal ?")
-    print("1. Interface graphique \n 2. Interface terminal")
+    print("1. Interface graphique \n2. Interface terminal")
     try:
         choice = int(input("Votre choix : "))
         if choice != 1 and choice != 2:
@@ -40,7 +52,7 @@ running = True
 clock = pygame.time.Clock()
 if choice == 1:
     print("Appuyez sur 'Echap' pour fermer le programme")
-    graph = Grille(l, h, pygame.display.set_mode((l * 10, h * 10)))
+    graph = Grille(l, h, taux, pygame.display.set_mode((l * 10, h * 10)))
     while running:
         for event in pygame.event.get():
             if event == pygame.QUIT:
@@ -51,10 +63,10 @@ if choice == 1:
         graph.jeu()
         graph.render_graph()
         pygame.display.flip()
-        clock.tick(32)
+        clock.tick(0.5)
 
 if choice == 2:
-    cmd = Grille(l, h)
+    cmd = Grille(l, h, taux)
     while(True):
         print("\u001B[H\u001B[3J")
         cmd.jeu()
