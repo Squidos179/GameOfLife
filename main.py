@@ -62,7 +62,7 @@ if choice == 1:
         for event in pygame.event.get():
             if event == pygame.QUIT:
                 running = False
-            if event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
         graph.render_graph()

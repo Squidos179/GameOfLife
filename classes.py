@@ -106,21 +106,13 @@ class Cellule:
         for i in self.voisins:
             if i.actuel == True:
                 self.civ += 1
-        if self.civ > 3 and self.est_vivant():
+        if self.civ > 3:
             self.mourir()
-        if self.civ > 3 and self.est_vivant() == False:
-            self.mourir()
-        if self.civ == 3 and self.est_vivant() == False:
-            self.naitre()
-        if self.civ == 3 and self.est_vivant():
+        if self.civ == 3:
             self.naitre()
         if self.civ == 2 and self.est_vivant():
             self.naitre()
-        if self.civ == 2 and self.est_vivant == False:
-            self.naitre()
-        if self.civ < 2 and self.est_vivant():
-            self.mourir()
-        if self.civ < 2 and self.est_vivant() == False:
+        if self.civ < 2:
             self.mourir()
 
     def render(self):
@@ -315,4 +307,3 @@ class Grille:
         for i in range(self.hauteur):
             for p in range(self.largeur):
                 self.matrix[i][p].render()
-
