@@ -63,19 +63,19 @@ class Cellule:
 
     def naitre(self) -> None:
         """
-        Change l'état futur d'une voisine à True (vivante)
+        Change l'état futur d'une cellule à True (vivante)
         """
         self.futur = True
 
     def mourir(self) -> None:
         """
-        Change l'état futur d'une voisine à False (Morte)
+        Change l'état futur d'une cellule à False (Morte)
         """
         self.futur = False
 
     def basculer(self):
         """
-        Change l'état futur d'une voisine à son état actuel
+        Change l'état futur d'une cellule à son état actuel
         """
         self.futur = self.actuel
 
