@@ -28,6 +28,7 @@ while sucess == False:
 sucess = False
 
 while sucess == False:
+    print("Le taux de remplissage représentera le taux de cellule vivante dans la grille, merci donner un compris entre 0 et 1.")
     try:
         taux = float(input("Veuillez choisir le taux de remplissage : "))
         if taux > 1 or taux < 0 or type(taux) != float:
