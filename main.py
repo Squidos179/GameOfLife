@@ -53,23 +53,24 @@ if load == True:
         else:
             sucess = True
 
-running = True
 if choice == 1:
     clock = pygame.time.Clock()
     print("Appuyez sur 'Echap' pour fermer le programme")
     graph = Grille(l, h, taux, pygame.display.set_mode((l * 10, h * 10)))
-    while running:
+    pygame.display.set_caption('Game Of Life')
+    ico = pygame.image.load('ico.png')
+    pygame.display.set_icon(ico)
+    while True:
         for event in pygame.event.get():
-            if event == pygame.QUIT:
-                running = False
+            if event.type == pygame.QUIT:
+                pygame.quit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    running = False
+                    pygame.quit()
         graph.render_graph()
         graph.jeu()
         pygame.display.flip()
         clock.tick(16)
-    pygame.quit()
 
 if choice == 2:
     cmd = Grille(l, h, taux)
